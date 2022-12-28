@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:social_app/modules/login/cubit/cubit.dart';
 import 'package:social_app/modules/login/cubit/states.dart';
-import 'package:social_app/modules/register/shop_register_screen.dart';
+import 'package:social_app/modules/register/register_screen.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -13,7 +14,12 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context)=> LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
-        listener: (context,state){},
+        listener: (context,state){
+          if (state is LoginErrorState)
+          {
+            Fluttertoast.showToast(msg: state.error,backgroundColor: Colors.redAccent);
+          }
+        },
         builder:(context,state)=> Scaffold(
           appBar: AppBar(
             title: const Text("Login Page"),
@@ -21,7 +27,7 @@ class LoginScreen extends StatelessWidget {
           body: Form(
             key: formKey,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -48,10 +54,12 @@ class LoginScreen extends StatelessWidget {
                       return null;
                     },
                     controller: emailController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.lock),
+                    decoration: InputDecoration(
+                      prefixIcon:const Icon(Icons.lock),
                       hintText: "Email Address",
-                      border: OutlineInputBorder()
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0)
+                      )
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -83,20 +91,28 @@ class LoginScreen extends StatelessWidget {
                           },
                         ),
                         hintText: "Password",
-                        border: const OutlineInputBorder()
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0)
+                        )
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SizedBox(
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.blue,
+                    ),
                     width: double.infinity,
                     child: MaterialButton(
                       height: 50,
-                      color: Colors.blue,
                       child:const Text("LOGIN",style: TextStyle(fontSize: 18,color: Colors.white)),
                       onPressed: (){
                         if(formKey.currentState!.validate())
                         {
-
+                          LoginCubit.get(context).userLogin(
+                              email: emailController.text,
+                              password: passwordController.text
+                          );
                         }
                       }
                     ),

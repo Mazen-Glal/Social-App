@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/social_layout.dart';
 import 'package:social_app/modules/register/register_cubit/cubit.dart';
 import 'package:social_app/modules/register/register_cubit/states.dart';
 class RegisterScreen extends StatelessWidget {
@@ -16,10 +17,14 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
-          if (state is RegisterSuccessState) {
-
-          } else if (state is RegisterErrorState) {
-
+          if (state is SuccessCreateUserFireStoreState) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SocialLayout()
+                ),
+                (route) => false
+            );
           }
         },
 
@@ -143,17 +148,17 @@ class RegisterScreen extends StatelessWidget {
                           child: MaterialButton(
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-
+                                RegisterCubit.get(context).userRegister(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    phone: phoneController.text
+                                );
                               }
                             },
-                            child: state == RegisterLoadingState()
-                                ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                                : const Text(
-                              'REGISTER',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: state == RegisterLoadingState() ?
+                                const CircularProgressIndicator(color: Colors.white)
+                                : const Text('REGISTER',style:TextStyle(color: Colors.white)),
                           ),
                         ),
                         const SizedBox(height: 15),
