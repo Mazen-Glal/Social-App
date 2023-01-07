@@ -6,7 +6,11 @@ class ChangeVisibilityState extends LoginStates{}
 
 class LoginLoadingState extends LoginStates{}
 
-class LoginSuccessState extends LoginStates{}
+class LoginSuccessState extends LoginStates{
+  late final dynamic uid;
+  LoginSuccessState(this.uid);
+
+}
 
 class LoginErrorState extends LoginStates{
   late final String error;

@@ -3,27 +3,32 @@ class CreateUserModel{
   late String email;
   late String phone;
   late String uId;
+  late bool isVerified;
 
   CreateUserModel({
     required this.name,
     required this.email,
     required this.phone,
-    required this.uId
+    required this.uId,
+    required this.isVerified
   });
 
-  CreateUserModel.fromJson(Map<String,dynamic>json){
-    email = json['email'];
+
+  CreateUserModel.fromJson(Map<String,dynamic>? json){
+    email = json!['email'];
     name = json['name'];
     phone = json['phone'];
     uId = json['uId'];
+    isVerified = json['isVerified'];
   }
 
   Map<String,dynamic> toMap(){
     return {
-      email :'email',
-      name :'name',
-      phone :'phone',
-      uId :'uId'
+      'email' :email,
+      'name' :name,
+      'phone' :phone,
+      'uId' :uId,
+      'isVerified':isVerified
     };
   }
 }

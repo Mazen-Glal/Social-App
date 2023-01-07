@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:social_app/layout/social_layout.dart';
 import 'package:social_app/modules/login/cubit/cubit.dart';
 import 'package:social_app/modules/login/cubit/states.dart';
 import 'package:social_app/modules/register/register_screen.dart';
+import 'package:social_app/shared/network/local/cache_helper.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -15,11 +17,24 @@ class LoginScreen extends StatelessWidget {
       create: (context)=> LoginCubit(),
       child: BlocConsumer<LoginCubit,LoginStates>(
         listener: (context,state){
-          if (state is LoginErrorState)
+          if(state is LoginSuccessState)
+          {
+            CacheHelper.saveData("UId", state.uid);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SocialLayout()
+                ),
+                    (route) => false
+            );
+            Fluttertoast.showToast(msg: 'Login Success State',backgroundColor: Colors.green);
+          }
+          else if (state is LoginErrorState)
           {
             Fluttertoast.showToast(msg: state.error,backgroundColor: Colors.redAccent);
           }
         },
+
         builder:(context,state)=> Scaffold(
           appBar: AppBar(
             title: const Text("Login Page"),
