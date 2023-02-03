@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 ThemeData light = ThemeData(
     cardColor: Colors.grey[100],
-    primarySwatch: Colors.deepOrange,
+    primarySwatch: Colors.blue,
     // floatingActionButtonTheme: const FloatingActionButtonThemeData(
     //   backgroundColor: Colors.deepOrange,
     // ),
@@ -26,7 +26,7 @@ ThemeData light = ThemeData(
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.deepOrange,
+      selectedItemColor: Colors.blue,
       elevation: 0.0,
     ),
     textTheme: const TextTheme(

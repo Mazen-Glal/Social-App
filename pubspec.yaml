@@ -39,6 +39,7 @@ dependencies:
   webview_flutter: ^3.0.4
   fluttertoast:
   conditional_builder_null_safety:
+  conditional_builder:
   carousel_slider:
   cupertino_icons: ^1.0.2
 
@@ -46,7 +47,9 @@ dependencies:
   firebase_core: ^2.4.0
   firebase_auth: ^4.2.3
   cloud_firestore: ^4.3.0
-
+  image_picker: ^0.8.6
+  firebase_storage: ^11.0.10
+  firebase_app_check: ^0.1.1+8
 dev_dependencies:
   flutter_test:
     sdk: flutter

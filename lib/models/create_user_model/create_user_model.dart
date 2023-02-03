@@ -1,16 +1,22 @@
 class CreateUserModel{
-  late String name;
-  late String email;
-  late String phone;
-  late String uId;
-  late bool isVerified;
+  late String? name;
+  late String? email;
+  late String? phone;
+  late String? uId;
+  late String? image;
+  late String? cover;
+  late String? bio;
+  late bool? isVerified;
 
   CreateUserModel({
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.uId,
-    required this.isVerified
+    this.name,
+    this.email,
+    this.phone,
+    this.uId,
+    this.image,
+    this.cover,
+    this.bio,
+    this.isVerified
   });
 
 
@@ -19,15 +25,21 @@ class CreateUserModel{
     name = json['name'];
     phone = json['phone'];
     uId = json['uId'];
+    image = json['image'];
+    cover = json['cover'];
+    bio = json['bio'];
     isVerified = json['isVerified'];
   }
 
   Map<String,dynamic> toMap(){
     return {
-      'email' :email,
-      'name' :name,
-      'phone' :phone,
-      'uId' :uId,
+      'email'     :email,
+      'name'      :name,
+      'phone'     :phone,
+      'uId'       :uId,
+      'image'     :image,
+      'cover'     :cover,
+      'bio'       :bio,
       'isVerified':isVerified
     };
   }

@@ -11,7 +11,6 @@ class RegisterCubit extends Cubit<RegisterStates> {
   static RegisterCubit get(context) => BlocProvider.of(context);
 
 
-  
   void userRegister({
     required String name,
     required String email,
@@ -23,35 +22,38 @@ class RegisterCubit extends Cubit<RegisterStates> {
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password
-    ).then((value) {
+    ).then((value) async {
       debugPrint(value.user!.email);
       debugPrint(value.user!.uid);
-      createUserFireStore(
+      await createUserFireStore(
         email: email,
         name: name,
         phone: phone,
         uId: value.user!.uid
       );
+      emit(RegisterSuccessState());
     }).catchError((error){
       emit(RegisterErrorState(error.toString()));
     });
   }
 
-
-  void createUserFireStore({
+  Future<void> createUserFireStore({
     required String name,
     required String email,
     required String phone,
     required String uId,
-  }){
+  }) async {
     CreateUserModel model = CreateUserModel(
         name       : name,
         email      : email,
         phone      : phone,
         uId        : uId,
+        image      : 'https://img.freepik.com/free-photo/serious-afro-american-woman-points-away-blank-space_273609-45546.jpg?t=st=1673107190~exp=1673107790~hmac=d0011d0bc8ceb145f8d3d87e09f9ad6d99e05827e36dba9d27834808793e9abd%27' ,
+        cover      : 'https://img.freepik.com/premium-vector/facebook-abstract-polygonal-cover-template_52246-69.jpg?w=740',
+        bio        : 'write your bio',
         isVerified : false
     );
-    FirebaseFirestore.instance.collection('users').doc(uId).set(model.toMap()).then((value) {
+    await FirebaseFirestore.instance.collection('users').doc(uId).set(model.toMap()).then((value) {
       emit(SuccessCreateUserFireStoreState());
     }).catchError((error){
       emit(ErrorCreateUserFireStoreState(error.toString()));
