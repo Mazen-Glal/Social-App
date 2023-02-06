@@ -40,9 +40,9 @@ dependencies:
   fluttertoast:
   conditional_builder_null_safety:
   conditional_builder:
+  intl:
   carousel_slider:
   cupertino_icons: ^1.0.2
-
   # firebase
   firebase_core: ^2.4.0
   firebase_auth: ^4.2.3

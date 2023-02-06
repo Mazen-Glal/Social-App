@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/models/create_user_model/create_user_model.dart';
+import 'package:social_app/models/message_model/message_model.dart';
 import 'package:social_app/models/post_model/post_model.dart';
 import 'package:social_app/modules/chats/chats_screen.dart';
 import 'package:social_app/modules/feeds/feeds_screen.dart';
@@ -210,6 +211,9 @@ class AppCubit extends Cubit<AppStates> {
 
   int currentIndex = 0;
   void changeBottomNavItem(int index) {
+    if(index == 1){
+      getAllUsers();
+    }
     if (index == 2) {
       emit(ChangeBottomNavBarToNewPost());
     } else {
@@ -295,6 +299,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetPostsLoadingState());
     await FirebaseFirestore.instance.collection('posts').get().then((value) {
 
+      // get the all posts in my hand
       posts = value.docs.map((e) => PostModel.fromJson(e.data())).toList();
       // postIds --> used in likePost to specify which post liked.
       postIds =value.docs.map((e) => e.id).toList();
@@ -308,7 +313,6 @@ class AppCubit extends Cubit<AppStates> {
     });
 
   }
-
   void likePost(String postId)
   {
     emit(LikePostsLoadingState());
@@ -347,6 +351,96 @@ class AppCubit extends Cubit<AppStates> {
         .catchError((error){emit(LikePostsErrorState(error.toString()));});
   }
 
+  List<CreateUserModel>? allUsers;
+  Future<void> getAllUsers() async {
+      allUsers = [];
+      emit(GetAllUserLoadingState());
+      await FirebaseFirestore.instance.collection('users').get().then((value) {
 
+        allUsers = value.docs.map((e) => CreateUserModel.fromJson(e.data())).toList();
+        for(int i=0;i<allUsers!.length;i++ )
+        {
+          if(allUsers![i].uId == userModel!.uId) {
+            allUsers!.remove(allUsers![i]);
+          }
+        }
+        emit(GetAllUserSuccessState());
+      }).catchError((error) {
+        debugPrint('the error is ${error.toString()}');
+        emit(GetAllUserErrorState(error.toString()));
+      });
 
+  }
+
+  Future<void> sendMessage({
+    required String? receiverId,
+    required String? dateTime,
+    required String? text,
+  })async {
+    MessageModel model = MessageModel(
+      text: text,
+      dateTime: dateTime,
+      receiverId: receiverId,
+      senderId: userModel!.uId
+    );
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value){
+          emit(SendMessageSuccessState());
+    })
+        .catchError((error){
+          emit(SendMessageErrorState());
+    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(userModel!.uId)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value){
+      emit(SendMessageSuccessState());
+    })
+        .catchError((error){
+      emit(SendMessageErrorState());
+    });
+  }
+
+  //get All messages
+  List<MessageModel>? messages;
+  void getMessages({required String? receiverId})
+  {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+          messages = [];
+          debugPrint(messages?.length.toString());
+          messages = event.docs.map((e) => MessageModel.fromJson(e.data())).toList();
+          debugPrint(messages?.length.toString());
+          emit(GetAllMessageSuccessState());
+    });
+    // what the difference between get && snapshots
+  //   .get()
+  //   .then((value) {
+          // messages = [];
+          // debugPrint(messages?.length.toString());
+          // messages = value.docs.map((e) => MessageModel.fromJson(e.data())).toList();
+          // debugPrint(messages?.length.toString());
+          // emit(GetAllMessageSuccessState());
+          // }).catchError((error){
+          //
+  // });
+
+  }
 }

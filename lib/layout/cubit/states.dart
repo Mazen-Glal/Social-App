@@ -9,6 +9,14 @@ class GetUserErrorState extends AppStates{
   GetUserErrorState(this.error);
 }
 
+// get all users
+class GetAllUserLoadingState extends AppStates{}
+class GetAllUserSuccessState extends AppStates{}
+class GetAllUserErrorState extends AppStates{
+  final String error;
+  GetAllUserErrorState(this.error);
+}
+
 class ChangeBottomNavBar extends AppStates{}
 class ChangeBottomNavBarToNewPost extends AppStates{}
 
@@ -69,3 +77,10 @@ class CountLikePostsErrorState extends AppStates{
   final String error;
   CountLikePostsErrorState(this.error);
 }
+
+//send message
+class SendMessageSuccessState extends AppStates{}
+class SendMessageErrorState extends AppStates{}
+//get all messages
+class GetAllMessageSuccessState extends AppStates{}
+class GetAllMessageErrorState extends AppStates{}

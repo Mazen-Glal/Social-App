@@ -1,6 +1,7 @@
 // import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/models/post_model/post_model.dart';
@@ -18,6 +19,7 @@ class FeedsScreen extends StatelessWidget {
       },
       builder:(context, state) {
         return SingleChildScrollView(
+          physics:const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   Card(
@@ -96,9 +98,9 @@ class FeedsScreen extends StatelessWidget {
                     const SizedBox(height: 2),
                     Row(
                       children:  [
-                        Text('January 21, 2021 ',style: Theme.of(context).textTheme.caption),
+                        Text(DateFormat.yMMMd().format(DateTime.now()),style: Theme.of(context).textTheme.bodySmall),
                         const SizedBox(width: 5),
-                        Text('11:00 pm',style: Theme.of(context).textTheme.caption),
+                        Text(TimeOfDay.now().format(context),style: Theme.of(context).textTheme.bodySmall),
                       ],
                     )
                   ],
@@ -143,7 +145,7 @@ class FeedsScreen extends StatelessWidget {
                         backgroundImage: NetworkImage(AppCubit.get(context).userModel?.image??''),
                       ),
                       const SizedBox(width: 10),
-                      Text('write a comment..',style: Theme.of(context).textTheme.caption),
+                      Text('write a comment..',style: Theme.of(context).textTheme.bodySmall),
                     ],
                   ),
                 ),
@@ -156,7 +158,7 @@ class FeedsScreen extends StatelessWidget {
                     children: [
                       const Icon(Icons.favorite_border,color: Colors.purpleAccent,size: 20,),
                       const SizedBox(width: 5),
-                      Text('Like',style: Theme.of(context).textTheme.caption,),
+                      Text('Like',style: Theme.of(context).textTheme.bodySmall,),
                     ],
                   ),
                 )
