@@ -358,12 +358,13 @@ class AppCubit extends Cubit<AppStates> {
       await FirebaseFirestore.instance.collection('users').get().then((value) {
 
         allUsers = value.docs.map((e) => CreateUserModel.fromJson(e.data())).toList();
-        for(int i=0;i<allUsers!.length;i++ )
-        {
-          if(allUsers![i].uId == userModel!.uId) {
-            allUsers!.remove(allUsers![i]);
-          }
-        }
+        // not chat with my self
+        // for(int i=0;i<allUsers!.length;i++ )
+        // {
+        //   if(allUsers![i].uId == userModel!.uId) {
+        //     allUsers!.remove(allUsers![i]);
+        //   }
+        // }
         emit(GetAllUserSuccessState());
       }).catchError((error) {
         debugPrint('the error is ${error.toString()}');

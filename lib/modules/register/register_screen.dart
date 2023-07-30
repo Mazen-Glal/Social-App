@@ -5,11 +5,11 @@ import 'package:social_app/modules/register/cubit/cubit.dart';
 import 'package:social_app/modules/register/cubit/states.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var phoneController = TextEditingController();
+  final  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final  nameController = TextEditingController();
+  final  emailController = TextEditingController();
+  final  passwordController = TextEditingController();
+  final  phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class RegisterScreen extends StatelessWidget {
                         Text(
                           'REGISTER',
                           style:
-                          Theme.of(context).textTheme.headline4?.copyWith(
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
                             color: Colors.black,
                           ),
                         ),
@@ -51,7 +51,7 @@ class RegisterScreen extends StatelessWidget {
                           'register now to communicate with friends',
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .titleLarge
                               ?.copyWith(color: Colors.grey[400]),
                         ),
                         const SizedBox(height: 30),

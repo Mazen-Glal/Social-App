@@ -16,34 +16,28 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey: 'recaptcha-v3-site-key',
-    // Default provider for Android is the Play Integrity provider. You can use the "AndroidProvider" enum to choose
-    // your preferred provider. Choose from:
-    // 1. debug provider
-    // 2. safety net provider
-    // 3. play integrity provider
     androidProvider: AndroidProvider.debug,
   );
   Bloc.observer = MyBlocObserver();
-  late Widget widget ;
+  late Widget widget;
   uId = CacheHelper.getData("UId");
-  if(uId == null)
-  {
+  if (uId == null) {
     widget = LoginScreen();
-  }
-  else
-  {
+  } else {
     widget = const SocialLayout();
   }
-  runApp( MyApp(widget));
+  runApp(MyApp(widget));
 }
 
 class MyApp extends StatelessWidget {
-  Widget widget;
-  MyApp(this.widget,{Key? key}) : super(key: key);
+  final Widget widget;
+  const MyApp(this.widget, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getUserData().. getAllPosts(),
+      create: (context) => AppCubit()
+        ..getUserData()
+        ..getAllPosts(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: widget,

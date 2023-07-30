@@ -6,9 +6,9 @@ import 'package:social_app/models/create_user_model/create_user_model.dart';
 import 'package:social_app/models/message_model/message_model.dart';
 import 'package:social_app/shared/styles/colors.dart';
 class ChatDetailsScreen extends StatelessWidget {
-  CreateUserModel? model;
+  final CreateUserModel? model;
   ChatDetailsScreen({super.key, this.model});
-  var textController = TextEditingController();
+  final  textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(

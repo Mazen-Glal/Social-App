@@ -7,7 +7,7 @@ import 'package:social_app/shared/styles/colors.dart';
 class NewPostsScreen extends StatelessWidget {
   NewPostsScreen({Key? key}) : super(key: key);
 
-  var textController = TextEditingController();
+  final  textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(

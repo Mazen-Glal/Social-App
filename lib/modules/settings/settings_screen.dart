@@ -58,7 +58,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               Text(
                   '${userModel.bio}',
-                  style:  Theme.of(context).textTheme.caption
+                  style:  Theme.of(context).textTheme.bodySmall
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -77,7 +77,7 @@ class SettingsScreen extends StatelessWidget {
                             ),
                             Text(
                                 'Posts',
-                                style:  Theme.of(context).textTheme.caption
+                                style:  Theme.of(context).textTheme.bodySmall
                             ),
                           ],
                         ),
@@ -99,7 +99,7 @@ class SettingsScreen extends StatelessWidget {
                             ),
                             Text(
                                 'Photos',
-                                style:  Theme.of(context).textTheme.caption
+                                style:  Theme.of(context).textTheme.bodySmall
                             ),
                           ],
                         ),
@@ -121,7 +121,7 @@ class SettingsScreen extends StatelessWidget {
                             ),
                             Text(
                                 'followers',
-                                style:  Theme.of(context).textTheme.caption
+                                style:  Theme.of(context).textTheme.bodySmall
                             ),
                           ],
                         ),
@@ -143,7 +143,7 @@ class SettingsScreen extends StatelessWidget {
                             ),
                             Text(
                                 'followings',
-                                style:  Theme.of(context).textTheme.caption
+                                style:  Theme.of(context).textTheme.bodySmall
                             ),
                           ],
                         ),

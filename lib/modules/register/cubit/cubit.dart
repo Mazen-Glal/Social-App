@@ -36,6 +36,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       emit(RegisterErrorState(error.toString()));
     });
   }
+
   Future<void> createUserFireStore({
     required String name,
     required String email,
